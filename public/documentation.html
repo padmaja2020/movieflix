@@ -96,21 +96,29 @@
           <td>/users/[username]/<br />[email]/[password]</td>
           <td>PUT</td>
           <td>none</td>
-          <td>Text message info was updated</td>
+          <td>
+            A JSON object holding data about the user with the updated info.
+          </td>
         </tr>
         <tr>
           <td>Allow user to add a movie to their list of favorites</td>
-          <td>/users/[username]<br />/[favorites]</td>
-          <td>PUT</td>
+          <td>/users/[username]<br />/movies/[MovieId]</td>
+          <td>POST</td>
           <td>none</td>
-          <td>Text message indication movie was added to the favorites</td>
+          <td>
+            A JSON object holding data about the user with the updated favorite
+            movie
+          </td>
         </tr>
         <tr>
           <td>Allow user to delete a movie from their list of favorites</td>
-          <td>/users/[username]<br />/[favorites]</td>
-          <td>DELETE</td>
+          <td>/users/[username]<br />/movies/[MovieId]</td>
+          <td>PUT</td>
           <td>none</td>
-          <td>Text message indication movie was deleted from favorites</td>
+          <td>
+            A JSON object holding data about the user with the favorite movie
+            removed.
+          </td>
         </tr>
         <tr>
           <td>Allow user to deregister</td>
