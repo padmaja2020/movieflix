@@ -10,6 +10,9 @@ const passport = require("passport");
 require("./passport.js");
 const Movies = Models.Movie;
 const Users = Models.User;
+const cors = require("cors");
+app.use(cors());
+const { check, validationResult } = require("express-validator");
 
 //Connect to the mongo db
 mongoose.connect("mongodb://localhost:27017/test", {
@@ -166,30 +169,47 @@ app.get(
 
 //Request to add a new user using POST
 
-app.post("/users", (req, res) => {
-  Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        res.status(500).send("Username already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then((user) => {
-            res.json(user);
+app.post(
+  "/users",
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username does not contain alphanumeric characters-not allowed"
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email is not valid").isEmail(),
+  ],
+  (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashedPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          res.status(500).send("Username already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch((err) => {
-            res.status(500).send("Error" + err);
-          });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send("Error" + err);
-    });
-});
+            .then((user) => {
+              res.json(user);
+            })
+            .catch((err) => {
+              res.status(500).send("Error" + err);
+            });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send("Error" + err);
+      });
+  }
+);
 
 //Unregister a user
 app.delete(

@@ -15,9 +15,11 @@ passport.use(
           return callback(error);
         }
         if (!user) {
-          return callback(null, false, { Message: "Something Happened" });
+          return callback(null, false, { Message: "Incorrect Username" });
         }
-
+        if (!user.hashPassword(password)) {
+          return callback(null, false, { Message: "Incorrect Password" });
+        }
         return callback(null, user);
       });
     }
