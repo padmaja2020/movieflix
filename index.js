@@ -312,6 +312,9 @@ app.put(
 app.get("/documentation", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: __dirname });
+});
 
 // //Serving static file using express.static()
 app.use(express.static("public"));
