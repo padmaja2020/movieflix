@@ -17,7 +17,7 @@ passport.use(
         if (!user) {
           return callback(null, false, { Message: "Incorrect Username" });
         }
-        if (!user.hashPassword(password)) {
+        if (!user.validatePassword(password)) {
           return callback(null, false, { Message: "Incorrect Password" });
         }
         return callback(null, user);
