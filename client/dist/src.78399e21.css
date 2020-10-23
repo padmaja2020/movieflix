@@ -1,3 +1,25 @@
+.movie-card-styles {
+  width: 100%;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+.login-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+.registration-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 20px;
+  margin: auto;
+}
+.main-view-styles {
+  width: 100%;
+}
 .my-flix {
   color: steelblue;
 }
