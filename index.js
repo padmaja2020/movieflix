@@ -12,7 +12,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const cors = require("cors");
 //app.use(cors());
-let allowedOrigins = ['*'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com'];
 
 app.use(cors({
   
