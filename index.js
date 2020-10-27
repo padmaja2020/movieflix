@@ -14,7 +14,7 @@ const cors = require("cors");
 app.use(cors());
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
 
-app.use(cors({
+app.use(cors({                                                             
   
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
@@ -22,6 +22,7 @@ app.use(cors({
       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
       return callback(new Error(message ), false);
     }
+    console.log("In the CORS");
     return callback(null, true);
   }
 }));
