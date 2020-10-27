@@ -3,7 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const uuid = require("uuid");
 const bodyParser = require("body-parser");
-let auth = require("./auth")(app);
+
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 const passport = require("passport");
@@ -27,7 +27,7 @@ app.use(cors({
   }
 }));
 const { check, validationResult } = require("express-validator");
-
+let auth = require("./auth")(app);
 //Connect to the mongo db
 
 mongoose.connect(process.env.CONNECTION_URI, {
