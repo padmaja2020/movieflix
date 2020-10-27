@@ -15,18 +15,27 @@ export class MainView extends React.Component {
     // Initialize the state to an empty object so we can destructure it later
     this.state = { movies: null, selectedMovie: null, user:null };
   }
+
+
+  getMovies(token){
+    console.log("In the get Movies");
+    axios.get("https://padmaja-myflix.herokuapp.com/movies",  { headers: { Authorization: "Bearer " + token },
+  }).then(response =>{
+      this.setState({movies:response.data});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+  
+
   componentDidMount() {
-    axios
-      .get("https://padmaja-myflix.herokuapp.com/movies")
-      .then((response) => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
       });
+      this.getMovies(accessToken);
+    }
   }
 
   onMovieClick(movie) {
@@ -34,11 +43,16 @@ export class MainView extends React.Component {
       selectedMovie: movie,
     });
   }
-  onLoggedIn(user){
+  onLoggedIn(authData){
+    console.log(authData);
   this.setState({
-    user
+    user:authData.user.Username
   });
+  localStorage.setItem('token', authData.token);
+  localStorage.setItem('user', authData.user.Username);
+  this.getMovies(authData.token);
   }
+
   onButtonClick() {
     this.setState({
       selectedMovie: null,

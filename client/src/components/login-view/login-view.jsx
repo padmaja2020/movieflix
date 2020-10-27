@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import "./login-view.scss";
@@ -10,12 +11,42 @@ export function LoginView(props){
 const [username, setUsername] = useState('');
 const[password, setPassword] = useState('');
 
-const handleSubmit = (e)=>{
-e.preventDefault();
-    console.log(username, password)
-props.onLoggedIn(username);
+const handleSubmit = (e) => {
+    // prevents the default refresh after submit button has been clicked
+    e.preventDefault();
+    console.log(username, password);
+    /* Send a request to the server for authentication */
+      axios
+        .post('https://padmaja-myflix.herokuapp.com/login', {Username: username, Password: password})
+        .then(response => {
+          const data = response.data;
+          // Send data to prop
+           props.onLoggedIn(data);
+          })
+        .catch(e => {
+          console.log('no such user');
+        });
+  };
 
-};
+
+
+
+// const handleSubmit = (e)=>{ 
+// e.preventDefault();
+//  axios.post("https://padmaja-myflix.herokuapp.com/login", {Username:username, Password:password})
+// .then(response =>{
+//   const data = response.data;
+//     console.log("User is present" + username + password);
+//     props.onLoggedIn(data);
+// }).catch(e=>{
+//     console.log("No such user "  + username + password);
+//  });
+// };
+
+
+
+
+  
 
 return(
     <Form className = "login-form">
@@ -31,11 +62,6 @@ return(
     </Form.Group>
     <Button variant = "primary" onClick = {handleSubmit}>Log In</Button>
     </Form>
-    
-
-    
-
-
 
 );
 

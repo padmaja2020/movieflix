@@ -46204,6 +46204,8 @@ exports.LoginView = LoginView;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -46240,10 +46242,33 @@ function LoginView(props) {
       setPassword = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
+    // prevents the default refresh after submit button has been clicked
     e.preventDefault();
     console.log(username, password);
-    props.onLoggedIn(username);
-  };
+    /* Send a request to the server for authentication */
+
+    _axios.default.post('https://padmaja-myflix.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data; // Send data to prop
+
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log('no such user');
+    });
+  }; // const handleSubmit = (e)=>{ 
+  // e.preventDefault();
+  //  axios.post("https://padmaja-myflix.herokuapp.com/login", {Username:username, Password:password})
+  // .then(response =>{
+  //   const data = response.data;
+  //     console.log("User is present" + username + password);
+  //     props.onLoggedIn(data);
+  // }).catch(e=>{
+  //     console.log("No such user "  + username + password);
+  //  });
+  // };
+
 
   return _react.default.createElement(_Form.default, {
     className: "login-form"
@@ -46270,7 +46295,7 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Log In"));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -46456,18 +46481,35 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MainView, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "getMovies",
+    value: function getMovies(token) {
       var _this2 = this;
 
-      _axios.default.get("https://padmaja-myflix.herokuapp.com/movies").then(function (response) {
-        // Assign the result to the state
+      console.log("In the get Movies");
+
+      _axios.default.get("https://padmaja-myflix.herokuapp.com/movies", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      }).then(function (response) {
         _this2.setState({
           movies: response.data
         });
       }).catch(function (error) {
         console.log(error);
       });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var accessToken = localStorage.getItem('token');
+
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
+        });
+        this.getMovies(accessToken);
+      }
     }
   }, {
     key: "onMovieClick",
@@ -46478,10 +46520,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(user) {
+    value: function onLoggedIn(authData) {
+      console.log(authData);
       this.setState({
-        user: user
+        user: authData.user.Username
       });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
     }
   }, {
     key: "onButtonClick",
@@ -46629,7 +46675,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49682" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49635" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

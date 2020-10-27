@@ -22,7 +22,7 @@ app.use(cors({
       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
       return callback(new Error(message ), false);
     }
-    console.log("In the CORS");
+  
     return callback(null, true);
   }
 }));
