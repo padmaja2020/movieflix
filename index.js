@@ -25,12 +25,12 @@ const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 app.use(cors());
 
-var allowedOrigins = [
-  'http://localhost:8080',
-  'http://localhost:1234',
-  'https://padmaja-myflix.herokuapp.com',
-];
-//var allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
+// var allowedOrigins = [
+//   'http://localhost:8080',
+//   'http://localhost:1234',
+//   'https://padmaja-myflix.herokuapp.com',
+// ];
+var allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
 // CORS - Allowed origins/domains
 app.use(cors({                                                             
   
