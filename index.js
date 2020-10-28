@@ -1,133 +1,119 @@
-const express = require('express'),
-  bodyParser = require('body-parser'),
-  mongoose = require('mongoose'),
-  Models = require('./models.js'),
-  morgan = require('morgan');
+// const express = require('express'),
+//   bodyParser = require('body-parser'),
+//   mongoose = require('mongoose'),
+//   Models = require('./models.js'),
+//   morgan = require('morgan');
 
-const passport = require('passport');
-require('./passport');
+// const passport = require('passport');
+// require('./passport');
 
-const app = express();
-const Movies = Models.Movie;
-const Users = Models.User;
+// const app = express();
+// const Movies = Models.Movie;
+// const Users = Models.User;
 
-//Local connection
-// mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+// //Local connection
+// // mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+// //   useNewUrlParser: true,
+// //   useUnifiedTopology: true,
+// // });
 
-// Connection to Remote DB on MongoDBAtlas
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.set('useFindAndModify', false);
-
-const { check, validationResult } = require('express-validator');
-
-const cors = require('cors');
-app.use(cors());
-
-/*
-CORS - Allowed origins/domains
-*/
-var allowedOrigins = [
-  'http://localhost:8080',
-  'http://localhost:1234',
-  'https://padmaja-myflix.herokuapp.com',
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        // If a specific origin isn’t found on the list of allowed origins
-        var message =
-          'The CORS policy for this application doesn’t allow access from origin ' +
-          origin;
-        return callback(new Error(message), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
-
-// Midddleware
-app.use(morgan('common'));
-app.use(bodyParser.json());
-var auth = require('./auth')(app);
-app.use(function (err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//const uuid = require("uuid");
-
-
-
-
-
-// let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com' ,];
-
-// app.use(cors({                                                             
-  
-//   origin: (origin, callback) => {
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-//       return callback(new Error(message ), false);
-//     }
-  
-//     return callback(null, true);
-//   }
-// }));
-
-
-
-//let auth = require("./auth")(app);
-//Connect to the mongo db
-
+// // Connection to Remote DB on MongoDBAtlas
 // mongoose.connect(process.env.CONNECTION_URI, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
+// mongoose.set('useFindAndModify', false);
+
+// const { check, validationResult } = require('express-validator');
+
+// const cors = require('cors');
+// app.use(cors());
+
+// /*
+// CORS - Allowed origins/domains
+// */
+// var allowedOrigins = [
+//   'http://localhost:8080',
+//   'http://localhost:1234',
+//   'https://vfa.herokuapp.com/',
+// ];
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         // If a specific origin isn’t found on the list of allowed origins
+//         var message =
+//           'The CORS policy for this application doesn’t allow access from origin ' +
+//           origin;
+//         return callback(new Error(message), false);
+//       }
+//       return callback(null, true);
+//     },
+//   })
+// );
+
+// // Midddleware
+// app.use(morgan('common'));
+// app.use(bodyParser.json());
+// var auth = require('./auth')(app);
+// app.use(function (err, req, res, next) {
+//   console.error(err.stack);
+//   res.status(500).send('Something broke!');
+// });
+
+
+
+
+//From old index
+
+const express = require("express");
+const app = express();
+const morgan = require("morgan");
+const uuid = require("uuid");
+const bodyParser = require("body-parser");
+
+const mongoose = require("mongoose");
+const Models = require("./models.js");
+const passport = require("passport");
+require("./passport.js");
+const Movies = Models.Movie;
+const Users = Models.User;
+const cors = require("cors");
+app.use(cors());
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
+
+app.use(cors({                                                             
+  
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+  
+    return callback(null, true);
+  }
+}));
+const { check, validationResult } = require("express-validator");
+let auth = require("./auth")(app);
+//Connect to the mongo db
+
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // mongoose.connect("mongodb://localhost:27017/test", {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 //Logging using Morgan
 
-//app.use(morgan("common"));
+app.use(morgan("common"));
 
 //request to GET a list of all the movies
 
@@ -426,3 +412,22 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", (req, res) => {
   console.log("Listening to port" + port);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
