@@ -1,11 +1,14 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const Models = require("./models.js");
 const morgan = require("morgan");
 const uuid = require("uuid");
+
 const passport = require("passport");
 require("./passport.js");
+
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -16,34 +19,58 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
+mongoose.set('useFindAndModify', false);
 
 const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 app.use(cors());
 
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
+var allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'https://padmaja-myflix.herokuapp.com',
+];
+//var allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://padmaja-myflix.herokuapp.com',];
 // CORS - Allowed origins/domains
-app.use(cors({                                                             
+// app.use(cors({                                                             
   
-  origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
-    }
+//   origin: (origin, callback) => {
+//     if(!origin) return callback(null, true);
+//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+//       return callback(new Error(message ), false);
+//     }
   
-    return callback(null, true);
-  }
-}));
+//     return callback(null, true);
+//   }
+// }));
 
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific origin isn’t found on the list of allowed origins
+        var message =
+          'The CORS policy for this application doesn’t allow access from origin ' +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 //Middleware
 //Logging using Morgan
 app.use(morgan("common"));
 app.use(bodyParser.json());
-const mongoose = require("mongoose");
+
 let auth = require("./auth")(app);
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 
 
