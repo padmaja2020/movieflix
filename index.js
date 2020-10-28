@@ -67,10 +67,10 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 
 let auth = require("./auth")(app);
-app.use(function (err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+// app.use(function (err, req, res, next) {
+//   console.error(err.stack);
+//   res.status(500).send('Something broke!');
+// });
 
 
 
