@@ -88,32 +88,4 @@ export class MainView extends React.Component {
 
 
 
-      //This was before state routing was added
-      // <div>
-      // <div className="main-view-styles text-center container-fluid">
-      // <div className = "container-fluid">
-      //       <div className = "row">
-      //   {selectedMovie ? (
-      //     <MovieView
-      //       movie={selectedMovie}
-      //       onClick={() => this.onButtonClick()}
-      //     />
-      //   ) : (
-      //     movies.map((movie) => (
-          
-      //       <MovieCard
-      //         key={movie._id}
-      //         movie={movie}
-      //         onClick={(movie) => this.onMovieClick(movie)}
-      //       />
-            
-            
-      //     ))
-      //   )}
-      //   </div>
-      //   </div>
-      // </div>
-      // </div>
-    );
-  }
-}
+     
