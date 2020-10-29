@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import "./login-view.scss";
 
 
-
 export function LoginView(props){
 
 const [username, setUsername] = useState('');
@@ -29,7 +28,7 @@ const handleSubmit = (e) => {
   };
 
 
-
+ 
 
 // const handleSubmit = (e)=>{ 
 // e.preventDefault();

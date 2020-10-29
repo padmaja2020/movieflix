@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import {LoginView} from "../login-view/login-view";
@@ -16,9 +17,8 @@ export class MainView extends React.Component {
     this.state = { movies: null, selectedMovie: null, user:null };
   }
 
-
   getMovies(token){
-    console.log("In the get Movies");
+ 
     axios.get("https://padmaja-myflix.herokuapp.com/movies",  { headers: { Authorization: "Bearer " + token },
   }).then(response =>{
       this.setState({movies:response.data});
@@ -60,7 +60,7 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, selectedMovie, user } = this.state;
+    const { movies, user } = this.state;
 
     if(!user) return <LoginView onLoggedIn = {user => this.onLoggedIn(user)}/>;
     // Before the movies have been loaded
@@ -68,31 +68,52 @@ export class MainView extends React.Component {
     if (!movies) return <div className="main-view" />;
 
     return (
-      <div>
-      <div className="main-view-styles text-center container-fluid">
-      <div className = "container-fluid">
+      <Router>
+        <div className = "main-view-styles text-center container-fluid">
+          <div className = "container-fluid">
             <div className = "row">
-        {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            onClick={() => this.onButtonClick()}
-          />
-        ) : (
-          movies.map((movie) => (
+              <Route exact path = "/" 
+              render = {()=> movies.map(m=> <MovieCard key = {m._id} movie ={m}/>)}/>
+              {/* <Route path="/movies/:movieId" render={({match}) => <MovieView movie={movies.find(m => m._id === match.params.movieId)}/>}/> */}
+              <Route path = "/movies/:movieId"
+               render ={({match})=> <MovieView movie = {movies.find(m=>m._id === match.params.movieId)}/>}/>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </Router>
+
+
+
+      //This was before state routing was added
+      // <div>
+      // <div className="main-view-styles text-center container-fluid">
+      // <div className = "container-fluid">
+      //       <div className = "row">
+      //   {selectedMovie ? (
+      //     <MovieView
+      //       movie={selectedMovie}
+      //       onClick={() => this.onButtonClick()}
+      //     />
+      //   ) : (
+      //     movies.map((movie) => (
           
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onClick={(movie) => this.onMovieClick(movie)}
-            />
+      //       <MovieCard
+      //         key={movie._id}
+      //         movie={movie}
+      //         onClick={(movie) => this.onMovieClick(movie)}
+      //       />
             
             
-          ))
-        )}
-        </div>
-        </div>
-      </div>
-      </div>
+      //     ))
+      //   )}
+      //   </div>
+      //   </div>
+      // </div>
+      // </div>
     );
   }
 }
