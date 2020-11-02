@@ -27,6 +27,11 @@ export class MovieCard extends React.Component {
         <Link to ={`/movies/${movie._id}`}>
         <Button variant = "link">Open</Button>
         </Link>
+        <Link to ={`/director/${movie.Director.Name}`}>
+        <Button variant = "link">Director</Button>
+        </Link><Link to ={`/genre/${movie.Genre.name}`}>
+        <Button variant = "link">Genre</Button>
+        </Link>
 
         
        </Card.Body>
@@ -45,7 +50,7 @@ MovieCard.propTypes = {
     Title:PropTypes.string.isRequired,
     Description:PropTypes.string.isRequired,
     Image:PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
   //onClick:PropTypes.func.isRequired
 }
 

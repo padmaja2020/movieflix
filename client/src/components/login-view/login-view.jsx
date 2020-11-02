@@ -28,22 +28,6 @@ const handleSubmit = (e) => {
   };
 
 
- 
-
-// const handleSubmit = (e)=>{ 
-// e.preventDefault();
-//  axios.post("https://padmaja-myflix.herokuapp.com/login", {Username:username, Password:password})
-// .then(response =>{
-//   const data = response.data;
-//     console.log("User is present" + username + password);
-//     props.onLoggedIn(data);
-// }).catch(e=>{
-//     console.log("No such user "  + username + password);
-//  });
-// };
-
-
-
 
   
 
