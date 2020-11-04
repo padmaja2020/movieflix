@@ -12,13 +12,17 @@ export class ProfileView extends React.Component{
 
         super(props);
         this.state={
-            username: "",
-            password: null,
-            email: null,
-            birthday: null,
-            favoriteMovies: [],
-            movies: [],
-
+           
+                    username: "",
+                    password: "",
+                    email: "",
+                    birthday: "",
+                    favoriteMovies: [],
+                    movies: [],
+    
+                
+               
+            
         };
     }
 
@@ -51,25 +55,24 @@ export class ProfileView extends React.Component{
     // }
 
     getUser(token) {
-        const username = localStorage.getItem('user');
+        const user = localStorage.getItem('user');
     
         axios
-          .get(`https://padmaja-myflix.herokuapp.com/users/${username}`, {
+          .get(`https://padmaja-myflix.herokuapp.com/users/${user}`, {
             headers: { Authorization: `Bearer ${token}` },
-          })
-    
-          .then((res) => {
-            this.setState({
-              username: res.data.username,
-            password: res.data.password,
-              email: res.data.email,
-              birthday: res.data.Birthday,
-              favoriteMovies: res.data.FavoriteMovies,
+          }).then((res) => {
+                        
+                 this.setState({
+                 username: res.data.Username,
+                 password: res.data.Password,
+                    email: res.data.Email,
+                 birthday: res.data.Birthday,
+                favoriteMovies: res.data.FavoriteMovies,
             });
+            console.log(res.data);
+            console.log("Username    " + res.data.Username);
            
-       
-          })
-          .catch(function (err) {
+          }) .catch(function (err) {
             console.log(err);
           });
       }
@@ -117,8 +120,6 @@ export class ProfileView extends React.Component{
 
         render(){
             const {movies} = this.props;
-            const username = localStorage.getItem('user');
-         
             return(
                 <div>
                     <Container>
@@ -128,25 +129,19 @@ export class ProfileView extends React.Component{
                         <br/>
                         <Card>
                         <Card.Body>
-                        <Card.Text>Username: {this.state.username}</Card.Text>
+                        <Card.Text>Username: {this.state.Username}</Card.Text>
                         <Card.Text>Password: </Card.Text>
                         <Card.Text>Email: {this.state.Email}</Card.Text>
                         <Card.Text>Birthday: {this.state.Birthday}</Card.Text>
 
-                        <Link to = {`/update/${username}`}><Button variant = "link">Update Profile</Button></Link>
+                        <Link to = {`/update/${this.state.Username}`}><Button variant = "link">Update Profile</Button></Link>
                         <Button variant = "link" onClick = {()=>this.deleteUser()}>Unregister</Button>
                         <Link to = {`/`}><Button variant = "link">Back</Button></Link>
 
                         </Card.Body>
                         </Card>                                      
                     </Container>
-
                 </div>
-
-
             )
-
-
         }
-    
 }
