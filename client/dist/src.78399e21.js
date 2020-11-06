@@ -49578,25 +49578,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var accessToken = localStorage.getItem('token');
       this.getUser(accessToken);
-    } // getUser(token){
-    //     const username = localStorage.getItem('user');
-    //     //get user info
-    //     axios.get(`https://padmaja-myflix.herokuapp.com/users/${username}`, {
-    //         headers: { Authorization: `Bearer ${token}` },
-    //       }).then((res)=>{
-    //         this.setState({
-    //             Username: res.data.Username,
-    //             Password:res.data.Password,
-    //             Email: res.data.Email,
-    //             Birthday:res.data.Birthday,
-    //             FavoriteMovies:res.data.FavoriteMovies
-    //         });
-    //         console.log(res.data);
-    //       }).catch(function (err) {
-    //         console.log(err);
-    //       });
-    // }
-
+    }
   }, {
     key: "getUser",
     value: function getUser(token) {
@@ -49616,9 +49598,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           birthday: res.data.Birthday,
           favoriteMovies: res.data.FavoriteMovies
         });
-
-        console.log(res.data);
-        console.log("Username    " + username);
       }).catch(function (err) {
         console.log(err);
       });
@@ -49638,31 +49617,15 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (event) {
         alert('failed to delete user');
       });
-    } // deleteUser(e){
-    //     const username = localStorage.getItem('user');
-    //     const token = localStorage.getItem('token');
-    //     console.log("token" + token);
-    //     axios.delete(`https://padmaja-myflix.herokuapp.com/users/${username}`, {
-    //         headers:{Authorization:'Bearer ${token}'},
-    //     }).then((res)=>{
-    //         console.log(res);
-    //         alert("User unregesitered");
-    //         localStorage.removeItem('token', 'username');
-    //         window.open('/');
-    //     }).catch(function(err){
-    //         console.log(err);
-    //         alert("could not delete user");
-    //     });
-    // }
-
+    }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
       var movies = this.props.movies;
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: "), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/update/".concat(this.state.Username)
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.username), _react.default.createElement(_Card.default.Text, null, "Password: XXXX"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.birthday), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/update/".concat(this.state.username)
       }, _react.default.createElement(_Button.default, {
         variant: "link"
       }, "Update Profile")), _react.default.createElement(_Button.default, {
@@ -49735,31 +49698,7 @@ function UpdateView(props) {
   var _useState7 = (0, _react.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
       birthday = _useState8[0],
-      setBirthday = _useState8[1]; // const handleSubmit= (e)=>{
-  //     e.preventDefault;
-  //     const username = localStorage.getItem('user');
-  //        const token = localStorage.getItem('token');
-  //       axios.put(`https://padmaja-myflix.herokuapp.com/users/${username}`,
-  //        {Username:username,
-  //         Password:password,
-  //         Email: email,
-  //         Birthday:birthday,
-  //         } ,
-  //        {
-  //          headers:{Authorization:'Bearer ${token}'}
-  //        }
-  //     ).then((res)=>{
-  //         const data = res.data;
-  //         console.log(data + "      And Username =" + data.Username);
-  //         localStorage.setItem("user", data.Username);
-  //         props.setUsername(data.Username);
-  //         window.open("/client", "_self");  
-  //         alert("Updated profile");
-  //     }).catch((err)=>{
-  //             console.log(err);
-  //     });
-  // }
-
+      setBirthday = _useState8[1];
 
   var handleUpdate = function handleUpdate(e) {
     e.preventDefault();

@@ -18,41 +18,16 @@ export class ProfileView extends React.Component{
                     email: "",
                     birthday: "",
                     favoriteMovies: [],
-                    movies: [],
-    
-                
-               
-            
+                    movies: [],  
         };
     }
+
 
     componentDidMount(){
         const accessToken = localStorage.getItem('token');
         this.getUser(accessToken);
 
     }
-    // getUser(token){
-    //     const username = localStorage.getItem('user');
-    //     //get user info
-    //     axios.get(`https://padmaja-myflix.herokuapp.com/users/${username}`, {
-    //         headers: { Authorization: `Bearer ${token}` },
-    //       }).then((res)=>{
-
-    //         this.setState({
-    //             Username: res.data.Username,
-    //             Password:res.data.Password,
-    //             Email: res.data.Email,
-    //             Birthday:res.data.Birthday,
-    //             FavoriteMovies:res.data.FavoriteMovies
-
-    //         });
-    //         console.log(res.data);
-          
-           
-    //       }).catch(function (err) {
-    //         console.log(err);
-    //       });
-    // }
 
     getUser(token) {
         const user = localStorage.getItem('user');
@@ -68,10 +43,7 @@ export class ProfileView extends React.Component{
                     email: res.data.Email,
                  birthday: res.data.Birthday,
                 favoriteMovies: res.data.FavoriteMovies,
-            });
-            console.log(res.data);
-            console.log("Username    " + username);
-           
+            }); 
           }) .catch(function (err) {
             console.log(err);
           });
@@ -98,26 +70,7 @@ export class ProfileView extends React.Component{
           });
       }
 
-    // deleteUser(e){
-    //     const username = localStorage.getItem('user');
-    //     const token = localStorage.getItem('token');
-    //     console.log("token" + token);
-    //     axios.delete(`https://padmaja-myflix.herokuapp.com/users/${username}`, {
-    //         headers:{Authorization:'Bearer ${token}'},
-    //     }).then((res)=>{
-    //         console.log(res);
-    //         alert("User unregesitered");
-    //         localStorage.removeItem('token', 'username');
-    //         window.open('/');
-    //     }).catch(function(err){
-    //         console.log(err);
-    //         alert("could not delete user");
-    //     });
-
-
-
-   // }
-
+   
         render(){
             const {movies} = this.props;
             return(
@@ -129,12 +82,12 @@ export class ProfileView extends React.Component{
                         <br/>
                         <Card>
                         <Card.Body>
-                        <Card.Text>Username: {this.state.Username}</Card.Text>
-                        <Card.Text>Password: </Card.Text>
-                        <Card.Text>Email: {this.state.Email}</Card.Text>
-                        <Card.Text>Birthday: {this.state.Birthday}</Card.Text>
+                        <Card.Text>Username: {this.state.username}</Card.Text>
+                        <Card.Text>Password: XXXX</Card.Text>
+                        <Card.Text>Email: {this.state.email}</Card.Text>
+                        <Card.Text>Birthday: {this.state.birthday}</Card.Text>
 
-                        <Link to = {`/update/${this.state.Username}`}><Button variant = "link">Update Profile</Button></Link>
+                        <Link to = {`/update/${this.state.username}`}><Button variant = "link">Update Profile</Button></Link>
                         <Button variant = "link" onClick = {()=>this.deleteUser()}>Unregister</Button>
                         <Link to = {`/`}><Button variant = "link">Back</Button></Link>
 

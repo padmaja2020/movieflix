@@ -11,43 +11,14 @@ const[password,setPassword] = useState('');
 const[email, setEmail]= useState('');
 const[birthday,setBirthday]= useState('');
 
-// const handleSubmit= (e)=>{
-//     e.preventDefault;
-//     const username = localStorage.getItem('user');
-//        const token = localStorage.getItem('token');
- 
-//       axios.put(`https://padmaja-myflix.herokuapp.com/users/${username}`,
-//        {Username:username,
-//         Password:password,
-//         Email: email,
-//         Birthday:birthday,
-//         } ,
-//        {
-//          headers:{Authorization:'Bearer ${token}'}
-//        }
-//     ).then((res)=>{
-//         const data = res.data;
-//         console.log(data + "      And Username =" + data.Username);
-//         localStorage.setItem("user", data.Username);
-//         props.setUsername(data.Username);
-//         window.open("/client", "_self");  
-//         alert("Updated profile");
-//     }).catch((err)=>{
-//             console.log(err);
-//     });
-
-// }
-
-
 
 const handleUpdate = (e) => {
     e.preventDefault();
     const url =
       "https://padmaja-myflix.herokuapp.com/users/" +
       localStorage.getItem("user");
-    axios
-      .put(
-        url,
+  
+    axios.put(url,
         {
           Username: username,
           Password: password,
