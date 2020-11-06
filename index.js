@@ -171,17 +171,17 @@ app.get(
         if (user) {
           res
             .status(201)
-            .send(
-              "Username: " +
-                user.Username +
-                "\n Password:" +
-                user.Password +
-                "\n Email:" +
-                user.Email +
-                "\n Birthday:" +
-                user.Birthday +
-                "\n Favorite Movies:" +
-                user.FavoriteMovies
+            .send(user
+              // "Username: " +
+              //   user.Username +
+              //   "\n Password:" +
+              //   user.Password +
+              //   "\n Email:" +
+              //   user.Email +
+              //   "\n Birthday:" +
+              //   user.Birthday +
+              //   "\n Favorite Movies:" +
+              //   user.FavoriteMovies
             );
         } else {
           res.status(500).send("User does not exist");

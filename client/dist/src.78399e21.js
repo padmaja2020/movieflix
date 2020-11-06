@@ -49618,7 +49618,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         });
 
         console.log(res.data);
-        console.log("Username    " + res.data.Username);
+        console.log("Username    " + username);
       }).catch(function (err) {
         console.log(err);
       });
@@ -50207,7 +50207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54757" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56717" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

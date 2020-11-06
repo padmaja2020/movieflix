@@ -70,7 +70,7 @@ export class ProfileView extends React.Component{
                 favoriteMovies: res.data.FavoriteMovies,
             });
             console.log(res.data);
-            console.log("Username    " + res.data.Username);
+            console.log("Username    " + username);
            
           }) .catch(function (err) {
             console.log(err);
