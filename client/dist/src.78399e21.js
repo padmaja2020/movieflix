@@ -49155,6 +49155,8 @@ exports.MovieView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _reactRouterDom = require("react-router-dom");
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -49201,8 +49203,30 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MovieView, [{
+    key: "addFavorite",
+    value: function addFavorite(movie) {
+      var token = localStorage.getItem("token");
+
+      var url = "https://padmaja-myflix.herokuapp.com/users/" + localStorage.getItem("user") + "/movies/" + movie._id;
+
+      console.log(token);
+
+      _axios.default.post(url, "", {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        console.log(response);
+        window.open("/", "_self");
+      });
+
+      alert("Movie has been added");
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           movie = _this$props.movie,
           onClick = _this$props.onClick;
@@ -49222,7 +49246,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Back")))));
+      }, "Back")), _react.default.createElement(_Button.default, {
+        variant: "link",
+        onClick: function onClick() {
+          return _this2.addFavorite(movie);
+        }
+      }, "Add Favorite"))));
     }
   }]);
 
@@ -49230,7 +49259,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/login-view/login-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/login-view/login-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49523,6 +49552,8 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -49576,22 +49607,40 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var accessToken = localStorage.getItem('token');
+      var accessToken = localStorage.getItem("token");
       this.getUser(accessToken);
+      this.getMovies(accessToken);
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this2 = this;
+
+      _axios.default.get("https://padmaja-myflix.herokuapp.com/movies", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      }).then(function (response) {
+        _this2.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }, {
     key: "getUser",
     value: function getUser(token) {
-      var _this2 = this;
+      var _this3 = this;
 
-      var user = localStorage.getItem('user');
+      var user = localStorage.getItem("user");
 
       _axios.default.get("https://padmaja-myflix.herokuapp.com/users/".concat(user), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (res) {
-        _this2.setState({
+        _this3.setState({
           username: res.data.Username,
           password: res.data.Password,
           email: res.data.Email,
@@ -49606,24 +49655,47 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "deleteUser",
     value: function deleteUser(e) {
-      _axios.default.delete("https://padmaja-myflix.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+      _axios.default.delete("https://padmaja-myflix.herokuapp.com/users/".concat(localStorage.getItem("user")), {
         headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+          Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
       }).then(function (response) {
-        alert('Account deleted');
-        localStorage.removeItem('token', 'user');
-        window.open('/');
+        alert("Account deleted");
+        localStorage.removeItem("token", "user");
+        window.open("/");
       }).catch(function (event) {
-        alert('failed to delete user');
+        alert("failed to delete user");
       });
+    } //remove favorite movie
+
+  }, {
+    key: "removeFavorite",
+    value: function removeFavorite(movie) {
+      var _this4 = this;
+
+      var token = localStorage.getItem("token");
+
+      var url = "https://padmaja-myflix.herokuapp.com/users/" + localStorage.getItem("user") + "/movies/" + movie._id;
+
+      _axios.default.put(url, "", {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        _this4.componentDidMount();
+      });
+
+      alert("Movie has been removed");
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this5 = this;
 
-      var movies = this.props.movies;
+      var movies = this.state.movies;
+      var favoriteMovieList = movies.filter(function (movie) {
+        return _this5.state.favoriteMovies.includes(movie._id);
+      });
       return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.username), _react.default.createElement(_Card.default.Text, null, "Password: XXXX"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.birthday), _react.default.createElement(_reactRouterDom.Link, {
         to: "/update/".concat(this.state.username)
       }, _react.default.createElement(_Button.default, {
@@ -49631,13 +49703,29 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }, "Update Profile")), _react.default.createElement(_Button.default, {
         variant: "link",
         onClick: function onClick() {
-          return _this3.deleteUser();
+          return _this5.deleteUser();
         }
       }, "Unregister"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Back"))))));
+      }, "Back")), _react.default.createElement(_Col.default, null, _react.default.createElement("div", {
+        style: {
+          float: "right",
+          textAlign: "center",
+          width: "28rem"
+        }
+      }, _react.default.createElement("h1", null, "Favorite Movies"), favoriteMovieList.map(function (movie) {
+        return _react.default.createElement("div", {
+          key: movie._id
+        }, _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
+          to: "/movies/".concat(movie._id)
+        }, _react.default.createElement(_Card.default.Title, null, movie.Title)))), _react.default.createElement(_Button.default, {
+          onClick: function onClick() {
+            return _this5.removeFavorite(movie);
+          }
+        }, "Remove"));
+      })))))));
     }
   }]);
 
@@ -49645,7 +49733,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/update-view/update-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"components/update-view/update-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49715,8 +49803,6 @@ function UpdateView(props) {
       }
     }).then(function (response) {
       var data = response.data;
-      console.log(data.Username);
-      console.log(data.Email);
       localStorage.setItem("user", data.Username); //props.setUsername(data.Username);
 
       alert("Your profile data was updated successfully");

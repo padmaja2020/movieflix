@@ -31,8 +31,6 @@ const handleUpdate = (e) => {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data.Username);
-        console.log(data.Email);
         localStorage.setItem("user", data.Username);
         //props.setUsername(data.Username);
         alert("Your profile data was updated successfully");
