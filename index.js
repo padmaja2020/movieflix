@@ -327,6 +327,15 @@ app.get("/", (req, res) => {
   res.sendFile("index.html", { root: __dirname });
 });
 
+// //Serving static file using express.static()
+app.use(express.static("public"));
+
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+
+
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 // // error handling middleware
 
@@ -342,7 +351,8 @@ app.listen(port, "0.0.0.0", (req, res) => {
   console.log("Listening to port" + port);
 });
 
-/ //Serving static file using express.static()
+
+// //Serving static file using express.static()
 app.use(express.static("public"));
 
 app.use("/client", express.static(path.join(__dirname, "client", "dist")));
@@ -351,8 +361,6 @@ app.use("/client", express.static(path.join(__dirname, "client", "dist")));
 app.get("/client/*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
-
-
 
 
 
