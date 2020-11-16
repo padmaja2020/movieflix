@@ -96,7 +96,7 @@ export class MainView extends React.Component {
     //});
     //this.props.setUsername(null);
     
-    window.open("/", "_self");
+    window.open("/client", "_self");
   }
 
   render() {
