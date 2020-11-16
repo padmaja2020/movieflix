@@ -14,7 +14,7 @@ export class MovieCard extends React.Component {
     // which, in this case, is `MainView`, as `MainView` is what’s
     // connected to your database via the movies endpoint of your API
     const { movie } = this.props;
-
+    console.log("In the MovieCard");
     return (
       <div className = "col-md-4 movie-card-styles">
       
@@ -25,12 +25,12 @@ export class MovieCard extends React.Component {
      
         <Card.Text>{movie.Description}</Card.Text>
         <Link to ={`/movies/${movie._id}`}>
-        <Button variant = "link">Open</Button>
+        <Button variant = "info" size = "sm" type = "link">Open</Button>{' '}
         </Link>
         <Link to ={`/director/${movie.Director.Name}`}>
-        <Button variant = "link">Director</Button>
+        <Button variant= "info" size = "sm" type = "link" size = "sm">Director</Button>{' '}
         </Link><Link to ={`/genre/${movie.Genre.name}`}>
-        <Button variant = "link">Genre</Button>
+        <Button variant= "info" size = "sm" type = "link">Genre</Button>
         </Link>
 
         

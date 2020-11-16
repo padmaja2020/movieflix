@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import axios from "axios";
 import Form from "react-bootstrap/Form";
@@ -22,8 +23,8 @@ const handleSubmit = (e) =>{
 
     }).then(response =>{
         const data = response.data;
-        console.log(data);
-        window.open('/', '_self');
+        //console.log("Registr" + data);
+        window.open('/client', '_self');
 
     }).catch(e =>{
         console.log("Error registering the user");

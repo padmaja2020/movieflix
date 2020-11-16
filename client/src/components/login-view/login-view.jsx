@@ -1,8 +1,12 @@
 import React, {useState} from "react";
+import {connect} from 'react-redux';
+import PropTypes from "prop-types";
+
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import "./login-view.scss";
+import { setUsername} from '../../actions/actions';
 
 
 export function LoginView(props){
@@ -13,7 +17,7 @@ const[password, setPassword] = useState('');
 const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked
     e.preventDefault();
-    console.log(username, password);
+ 
     /* Send a request to the server for authentication */
       axios
         .post('https://padmaja-myflix.herokuapp.com/login', {Username: username, Password: password})
@@ -21,9 +25,12 @@ const handleSubmit = (e) => {
           const data = response.data;
           // Send data to prop
            props.onLoggedIn(data);
+         
+           props.setUsername(username);
+          
           })
         .catch(e => {
-          console.log('no such user');
+          console.log('no such user exists' + e.response);
         });
   };
 
@@ -50,3 +57,8 @@ return(
 
 
 } 
+LoginView.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setUsername })(LoginView);

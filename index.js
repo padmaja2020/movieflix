@@ -1,4 +1,4 @@
-
+const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -329,6 +329,13 @@ app.get("/", (req, res) => {
 
 // //Serving static file using express.static()
 app.use(express.static("public"));
+
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+
+
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 // // error handling middleware
 

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
 
+import React, { useState } from "react";
+import {connect} from 'react-redux';
+import axios from "axios";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import {setUsername} from '../../actions/actions';
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/row";
 
 
 export class ProfileView extends React.Component {
@@ -53,11 +58,17 @@ export class ProfileView extends React.Component {
           birthday: res.data.Birthday,
           favoriteMovies: res.data.FavoriteMovies,
         });
+        this.props.setUsername( res.data.Username);
+        
+        
       })
       .catch(function (err) {
         console.log(err);
       });
   }
+
+
+  
 
   //Unregister user
 
@@ -109,30 +120,47 @@ export class ProfileView extends React.Component {
     });
     
     return (
-      <div>
-        <Container>
-          <h1>My Profile</h1>
-          <br />
-          <br />
-          <br />
-          <Card>
-            <Card.Body>
-              <Card.Text>Username: {this.state.username}</Card.Text>
-              <Card.Text>Password: XXXX</Card.Text>
-              <Card.Text>Email: {this.state.email}</Card.Text>
-              <Card.Text>Birthday: {this.state.birthday}</Card.Text>
+      
+        
 
-              <Link to={`/update/${this.state.username}`}>
-                <Button variant="link">Update Profile</Button>
-              </Link>
-              <Button variant="link" onClick={() => this.deleteUser()}>
-                Unregister
-              </Button>
-              <Link to={`/`}>
-                <Button variant="link">Back</Button>
-              </Link>
-              <Col>
+        <div className="userProfile" style={{ display: "flex" }}>
+        <Container>
+          <Row>
+            <Col>
+              <Form style={{ width: "36rem", float: "left" }}>
+                <h1 style={{ textAlign: "center" }}>Profile Details</h1>
+                <Form.Group controlId="formBasicUsername">
+                  <h3>Username: </h3>
+                  <Form.Label>{this.state.username}</Form.Label>
+                </Form.Group>
+                <Form.Group controlId="formBasicEmail">
+                  <h3>Email:</h3>
+                  <Form.Label>{this.state.email}</Form.Label>
+                </Form.Group>
+                <Form.Group controlId="formBasicDate">
+                  <h3>Date of Birth:</h3>
+                  <Form.Label>{this.state.birthday}</Form.Label>
+                </Form.Group>
+                {
+                  <Link to={`/update/${this.state.username}`}>
+                    <Button variant="primary" type="link">
+                      Updata Info
+                    </Button>{' '}
+                  </Link>
+                }
+                <Button variant="danger" onClick={() => this.handleDelete()}>
+                  Delete Account
+                </Button> {' '}
+                <Link to={`/`}>
+                  <Button variant="secondary" type="submit">
+                    Back
+                  </Button>
+                </Link>
+              </Form>
+            </Col>
+            <Col>
               <div
+                className="favoriteMovies"
                 style={{
                   float: "right",
                   textAlign: "center",
@@ -140,28 +168,46 @@ export class ProfileView extends React.Component {
                 }}
               >
                 <h1>Favorite Movies</h1>
-                {favoriteMovieList.map((movie)=> {
+                {favoriteMovieList.map((movie) => {
                   return (
                     <div key={movie._id}>
-                      <Card>
+                      <Card bg = "light" text = "dark">
                         <Card.Body>
                           <Link to={`/movies/${movie._id}`}>
                             <Card.Title>{movie.Title}</Card.Title>
                           </Link>
-                        </Card.Body>
-                      </Card>
-                      <Button onClick={() => this.removeFavorite(movie)}>
+                          <Button variant = "info" size = "sm" onClick={() => this.removeFavorite(movie)}>
                         Remove
                       </Button>
+                        </Card.Body>
+                      </Card>
+                     
                     </div>
                   );
                 })}
               </div>
             </Col>
-            </Card.Body>
-          </Card>
+          </Row>
         </Container>
       </div>
     );
   }
 }
+
+
+// ProfileView.propTypes = {
+//   movies: PropTypes.array.isRequired,
+// };
+
+export default connect(null, { setUsername })(ProfileView);
+
+
+
+
+
+
+
+
+
+
+ 

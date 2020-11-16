@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, {useState} from "react";
+import {connect} from 'react-redux';
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {setUsername} from "../../actions/actions";
 
 
 export function UpdateView(props){
@@ -32,7 +34,7 @@ const handleUpdate = (e) => {
       .then((response) => {
         const data = response.data;
         localStorage.setItem("user", data.Username);
-        //props.setUsername(data.Username);
+        props.setUsername(data.Username);
         alert("Your profile data was updated successfully");
         window.open("/", "_self");
       })
@@ -45,7 +47,7 @@ const handleUpdate = (e) => {
 
 return(
         <div>
-            <Form>
+            <Form style={{ width: "32rem", margin: "auto", textAlign: "center" }}>
                 <Form.Group controlId = "formGroupUsername">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control value = {username} type = "text" placeholder = "Enter Userame" onChange = {(e)=> setUsername(e.target.value)}/>
@@ -75,3 +77,5 @@ return(
 )
 
 }
+
+export default connect(null, {setUsername})(UpdateView);
