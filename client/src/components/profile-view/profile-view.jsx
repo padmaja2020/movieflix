@@ -151,7 +151,7 @@ export class ProfileView extends React.Component {
                 <Button variant="danger" onClick={() => this.handleDelete()}>
                   Delete Account
                 </Button> {' '}
-                <Link to={`/client`}>
+                <Link to={`/`}>
                   <Button variant="secondary" type="submit">
                     Back
                   </Button>
