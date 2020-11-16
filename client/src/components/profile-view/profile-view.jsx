@@ -85,7 +85,7 @@ export class ProfileView extends React.Component {
       .then((response) => {
         alert("Account deleted");
         localStorage.removeItem("token", "user");
-        window.open("/");
+        window.open("/client");
       })
       .catch((event) => {
         alert("failed to delete user");
@@ -151,7 +151,7 @@ export class ProfileView extends React.Component {
                 <Button variant="danger" onClick={() => this.handleDelete()}>
                   Delete Account
                 </Button> {' '}
-                <Link to={`/`}>
+                <Link to={`/client`}>
                   <Button variant="secondary" type="submit">
                     Back
                   </Button>
