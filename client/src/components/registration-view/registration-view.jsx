@@ -26,8 +26,8 @@ const handleSubmit = (e) =>{
         window.open('/client', '_self');
 
     }).catch(e =>{
-        console.log("Error registering the user");
-        console.log("Respone" + e.response);
+       // console.log("Error registering the user");
+        //console.log("Respone" + e.response);
         alert("Error registering the user" );
     });
 

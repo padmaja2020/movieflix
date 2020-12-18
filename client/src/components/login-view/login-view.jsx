@@ -30,7 +30,7 @@ const handleSubmit = (e) => {
           
           })
         .catch(e => {
-          alert("Username" + username + " does not exist");
+         // alert("Username" + username + " does not exist");
           console.log('no such user exists' + e.response);
         });
   };
