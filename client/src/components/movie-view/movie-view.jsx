@@ -26,7 +26,7 @@ export class MovieView extends React.Component {
       })
       .then((response) => {
       
-        window.open("/", "_self");
+        window.open("/client", "_self");
       });
       alert("Movie has been added");
   }

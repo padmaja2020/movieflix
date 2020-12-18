@@ -23,11 +23,12 @@ const handleSubmit = (e) =>{
 
     }).then(response =>{
         const data = response.data;
-        //console.log("Registr" + data);
         window.open('/client', '_self');
 
     }).catch(e =>{
         console.log("Error registering the user");
+        console.log("Respone" + e.response);
+        alert("Error registering the user" );
     });
 
 }
