@@ -27,7 +27,7 @@ const handleSubmit = (e) =>{
 
     }).catch(e =>{
        console.log("Error registering the user");
-        console.log("Respone" + e);
+        
         alert("Error registering the user" );
     });
 
