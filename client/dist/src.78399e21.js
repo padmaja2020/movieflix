@@ -52257,7 +52257,7 @@ function LoginView(props) {
       props.onLoggedIn(data);
       props.setUsername(username);
     }).catch(function (e) {
-      alert("Username" + username + " does not exist");
+      alert("Username  " + username + " does not exist");
       console.log('no such user exists' + e.response);
     });
   };
@@ -52372,7 +52372,7 @@ function RegistrationView(props) {
       window.open('/client', '_self');
     }).catch(function (e) {
       console.log("Error registering the user");
-      console.log("Respone" + e.response);
+      console.log("Respone" + e);
       alert("Error registering the user");
     });
   };
@@ -53328,7 +53328,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54175" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51265" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
