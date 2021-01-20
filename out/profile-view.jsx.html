@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: profile-view.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: profile-view.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+import React, { useState } from "react";
+import {connect} from 'react-redux';
+import axios from "axios";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import {setUsername} from '../../actions/actions';
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/row";
+
+
+export class ProfileView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      email: "",
+      birthday: "",
+      favoriteMovies: [],
+      movies: [],
+    };
+  }
+
+  componentDidMount() {
+    const accessToken = localStorage.getItem("token");
+    this.getUser(accessToken);
+    this.getMovies(accessToken);
+  }
+
+  /**
+   * Get the movies from the user's list 
+   * @function getMovies
+   * @param {string} token 
+   */
+
+  getMovies(token){
+ 
+    axios.get("https://padmaja-myflix.herokuapp.com/movies",  { headers: { Authorization: "Bearer " + token },
+  }).then(response =>{
+      this.setState({movies:response.data});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  /**
+   * Get user's information 
+   * @function @getUser
+   * @param {string} token 
+   */
+
+  getUser(token) {
+    const user = localStorage.getItem("user");
+
+    axios
+      .get(`https://padmaja-myflix.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        this.setState({
+          username: res.data.Username,
+          password: res.data.Password,
+          email: res.data.Email,
+          birthday: res.data.Birthday,
+          favoriteMovies: res.data.FavoriteMovies,
+        });
+        this.props.setUsername( res.data.Username);
+        
+        
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+
+  
+
+  /**
+   * Delete the user
+   *@function deleteUser
+   */
+
+  deleteUser(e) {
+    axios
+      .delete(
+        `https://padmaja-myflix.herokuapp.com/users/${localStorage.getItem(
+          "user"
+        )}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((response) => {
+        alert("Account deleted");
+        localStorage.removeItem("token", "user");
+        window.open("/client");
+      })
+      .catch((event) => {
+        alert("failed to delete user");
+      });
+  }
+
+  /**
+   * Remove a movie from user's favorite movie list
+   * @function removeFavorite
+   * @param {string} movie 
+   */
+
+  removeFavorite(movie) {
+    let token = localStorage.getItem("token");
+    let url =
+      "https://padmaja-myflix.herokuapp.com/users/" +
+      localStorage.getItem("user") +
+      "/movies/" +
+      movie._id;
+   
+    axios
+      .put(url, "", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.componentDidMount();
+      });
+      alert("Movie has been removed");
+  }
+
+  render() {
+    const { movies } = this.state;
+  
+    const favoriteMovieList = movies.filter((movie) => {
+      return this.state.favoriteMovies.includes(movie._id);
+    });
+    
+    return (
+      
+        
+
+        &lt;div className="userProfile" style={{ display: "flex" }}>
+        &lt;Container>
+          &lt;Row>
+            &lt;Col>
+              &lt;Form style={{ width: "36rem", float: "left" }}>
+                &lt;h1 style={{ textAlign: "center" }}>Profile Details&lt;/h1>
+                &lt;Form.Group controlId="formBasicUsername">
+                  &lt;h3>Username: &lt;/h3>
+                  &lt;Form.Label>{this.state.username}&lt;/Form.Label>
+                &lt;/Form.Group>
+                &lt;Form.Group controlId="formBasicEmail">
+                  &lt;h3>Email:&lt;/h3>
+                  &lt;Form.Label>{this.state.email}&lt;/Form.Label>
+                &lt;/Form.Group>
+                &lt;Form.Group controlId="formBasicDate">
+                  &lt;h3>Date of Birth:&lt;/h3>
+                  &lt;Form.Label>{this.state.birthday}&lt;/Form.Label>
+                &lt;/Form.Group>
+                {
+                  &lt;Link to={`/update/${this.state.username}`}>
+                    &lt;Button variant="primary" type="link">
+                      Updata Info
+                    &lt;/Button>{' '}
+                  &lt;/Link>
+                }
+                &lt;Button variant="danger" onClick={() => this.handleDelete()}>
+                  Delete Account
+                &lt;/Button> {' '}
+                &lt;Link to={`/`}>
+                  &lt;Button variant="secondary" type="submit">
+                    Back
+                  &lt;/Button>
+                &lt;/Link>
+              &lt;/Form>
+            &lt;/Col>
+            &lt;Col>
+              &lt;div
+                className="favoriteMovies"
+                style={{
+                  float: "right",
+                  textAlign: "center",
+                  width: "28rem",
+                }}
+              >
+                &lt;h1>Favorite Movies&lt;/h1>
+                {favoriteMovieList.map((movie) => {
+                  return (
+                    &lt;div key={movie._id}>
+                      &lt;Card bg = "light" text = "dark">
+                        &lt;Card.Body>
+                          &lt;Link to={`/movies/${movie._id}`}>
+                            &lt;Card.Title>{movie.Title}&lt;/Card.Title>
+                          &lt;/Link>
+                          &lt;Button variant = "info" size = "sm" onClick={() => this.removeFavorite(movie)}>
+                        Remove
+                      &lt;/Button>
+                        &lt;/Card.Body>
+                      &lt;/Card>
+                     
+                    &lt;/div>
+                  );
+                })}
+              &lt;/div>
+            &lt;/Col>
+          &lt;/Row>
+        &lt;/Container>
+      &lt;/div>
+    );
+  }
+}
+
+
+// ProfileView.propTypes = {
+//   movies: PropTypes.array.isRequired,
+// };
+
+export default connect(null, { setUsername })(ProfileView);
+
+
+
+
+
+
+
+
+
+
+ </code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#@getUser">@getUser</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#getMovies">getMovies</a></li><li><a href="global.html#removeFavorite">removeFavorite</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Jan 20 2021 13:27:18 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
