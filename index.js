@@ -68,7 +68,7 @@ app.get("/movies",passport.authenticate('jwt', { session: false }), (req, res) =
     });
 });
 
-// //request to get details about a single movie by title
+//request to get details about a single movie by title
 
 app.get(
   "/movies/:Title",
@@ -89,7 +89,7 @@ app.get(
   }
 );
 
-// //request to get data about a genre by title
+//request to get data about a genre by title
 
 app.get(
   "/movies/genres/:Name",
@@ -112,7 +112,7 @@ app.get(
   }
 );
 
-// //Request to get data about the director of the movie by title
+//Request to get data about the director of the movie by title
 
 app.get(
   "/movies/director/:Name",
