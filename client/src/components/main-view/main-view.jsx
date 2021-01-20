@@ -38,6 +38,12 @@ export class MainView extends React.Component {
    // this.state = {user:null};
   }
 
+  /**
+   * Get movies from database
+   * @function getMovies
+   * @param {string} token 
+   */
+
   getMovies(token){
  
     axios.get("https://padmaja-myflix.herokuapp.com/movies",  { headers: { Authorization: "Bearer " + token },
@@ -68,6 +74,12 @@ export class MainView extends React.Component {
   //     selectedMovie: movie,
   //   });
   // }
+
+  /**
+   * Save user information in localStorage
+   * @function onLoggedIn
+   * 
+   */
   onLoggedIn(authData){
   // this.setState({
   //   user:authData.user.Username
@@ -86,6 +98,11 @@ export class MainView extends React.Component {
       selectedMovie: null,
     });
   }
+
+  /**
+   * Logs the user out
+   * @function logOut
+   */
   logOut() {
     
     localStorage.removeItem('token');

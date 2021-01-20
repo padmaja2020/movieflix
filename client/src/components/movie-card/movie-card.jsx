@@ -14,7 +14,7 @@ export class MovieCard extends React.Component {
     // which, in this case, is `MainView`, as `MainView` is what’s
     // connected to your database via the movies endpoint of your API
     const { movie } = this.props;
-    console.log("In the MovieCard");
+  
     return (
       <div className = "col-md-4 movie-card-styles">
       

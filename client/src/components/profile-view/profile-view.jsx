@@ -32,6 +32,11 @@ export class ProfileView extends React.Component {
     this.getMovies(accessToken);
   }
 
+  /**
+   * Get the movies from the user's list 
+   * @function getMovies
+   * @param {string} token 
+   */
 
   getMovies(token){
  
@@ -42,6 +47,12 @@ export class ProfileView extends React.Component {
       console.log(error);
     });
   }
+
+  /**
+   * Get user's information 
+   * @function @getUser
+   * @param {string} token 
+   */
 
   getUser(token) {
     const user = localStorage.getItem("user");
@@ -70,7 +81,10 @@ export class ProfileView extends React.Component {
 
   
 
-  //Unregister user
+  /**
+   * Delete the user
+   *@function deleteUser
+   */
 
   deleteUser(e) {
     axios
@@ -92,7 +106,11 @@ export class ProfileView extends React.Component {
       });
   }
 
-  //remove favorite movie
+  /**
+   * Remove a movie from user's favorite movie list
+   * @function removeFavorite
+   * @param {string} movie 
+   */
 
   removeFavorite(movie) {
     let token = localStorage.getItem("token");

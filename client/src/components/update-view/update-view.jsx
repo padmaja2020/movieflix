@@ -13,6 +13,15 @@ const[password,setPassword] = useState('');
 const[email, setEmail]= useState('');
 const[birthday,setBirthday]= useState('');
 
+/**
+ * Update user information
+ * @function handleUpdate
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @param {date} birthday
+ */
+
 
 const handleUpdate = (e) => {
     e.preventDefault();

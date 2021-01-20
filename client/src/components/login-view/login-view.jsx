@@ -13,6 +13,12 @@ export function LoginView(props){
 
 const [username, setUsername] = useState('');
 const[password, setPassword] = useState('');
+ /**
+   * posting username and password to /login
+   * @function handleSubmit
+   * @param {event}
+   * @return {object} User information
+   */
 
 const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked

@@ -12,6 +12,15 @@ const[password,setPassword] = useState('');
 const[email, setEmail]= useState('');
 const[birthday,setBirthday]= useState('');
 
+/**
+ * Register a new user
+ * @function handleSubmit
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @param {date} birthday
+ */
+
 const handleSubmit = (e) =>{
     e.preventDefault;
    

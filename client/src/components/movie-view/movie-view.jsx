@@ -10,6 +10,11 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  /**
+   * Add user's favorite movie
+   * @function addFavorite
+   * @param {string} movie 
+   */
 
   addFavorite(movie) {
     let token = localStorage.getItem("token");
